@@ -57,7 +57,7 @@ export const SceneShell: React.FC<SceneShellProps> = ({
           color: colors.ink,
           fontFamily: uiFont,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "column"
         }}
       >
         <NarrationAudio beats={beats} starts={timeline.starts} />
