@@ -145,6 +145,13 @@ function foundVaule(node: DoublyListNode | null = null): number | null {
 }
 //按照值查找节点
 function foundheadOfvalue(value: number): DoublyListNode | null {
+	let current = head;
+	while (current !== null) {
+		if (current.value === value) {
+			return current;
+		}
+		current = current.next;
+	}
 	return null;
 }
 //=========输出链表==========
@@ -155,7 +162,8 @@ function foundheadOfvalue(value: number): DoublyListNode | null {
 // deletevalue(0);
 printDoublyListNode(n0);
 // changeValue(0,10);
-console.log(foundVaule(n2));
+foundheadOfvalue(3);
+console.log(foundheadOfvalue(99));
 
 // printDoublyListNode(n0);
 
