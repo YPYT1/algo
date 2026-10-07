@@ -1,69 +1,67 @@
 import { getThemeColors } from "@code-hike/lighter";
 import { measureText } from "@remotion/layout-utils";
-import { HighlightedCode } from "codehike/code";
-import { CalculateMetadataFunction } from "remotion";
-import { z } from "zod";
+import type { HighlightedCode } from "codehike/code";
+import type { CalculateMetadataFunction } from "remotion";
+import type { z } from "zod";
 import {
-  fontFamily,
-  fontSize,
-  horizontalPadding,
-  tabSize,
-  waitUntilDone,
+	fontFamily,
+	fontSize,
+	horizontalPadding,
+	tabSize,
+	waitUntilDone,
 } from "../font";
-import { Props } from "../Main";
+import type { Props } from "../Main";
 import { getFiles } from "./get-files";
 import { processSnippet } from "./process-snippet";
-import { schema } from "./schema";
+import type { schema } from "./schema";
 
 export const calculateMetadata: CalculateMetadataFunction<
-  Props & z.infer<typeof schema>
+	Props & z.infer<typeof schema>
 > = async ({ props }) => {
-  const contents = await getFiles();
+	const contents = await getFiles();
 
-  await waitUntilDone();
-  const widthPerCharacter = measureText({
-    text: "A",
-    fontFamily,
-    fontSize,
-    validateFontIsLoaded: true,
-  }).width;
+	await waitUntilDone();
+	const widthPerCharacter = measureText({
+		text: "A",
+		fontFamily,
+		fontSize,
+		validateFontIsLoaded: true,
+	}).width;
 
-  const maxCharacters = Math.max(
-    ...contents
-      .map(({ value }) => value.split("\n"))
-      .flat()
-      .map((value) => value.replaceAll("\t", " ".repeat(tabSize)).length)
-      .flat(),
-  );
-  const codeWidth = widthPerCharacter * maxCharacters;
+	const maxCharacters = Math.max(
+		...contents
+			.flatMap(({ value }) => value.split("\n"))
+			.flatMap((value) => value.replaceAll("\t", " ".repeat(tabSize)).length),
+	);
+	const codeWidth = widthPerCharacter * maxCharacters;
 
-  const defaultStepDuration = 90;
+	const defaultStepDuration = 90;
 
-  const themeColors = await getThemeColors(props.theme);
+	const themeColors = await getThemeColors(props.theme);
 
-  const twoSlashedCode: HighlightedCode[] = [];
-  for (const snippet of contents) {
-    twoSlashedCode.push(await processSnippet(snippet, props.theme));
-  }
+	const twoSlashedCode: HighlightedCode[] = [];
+	for (const snippet of contents) {
+		twoSlashedCode.push(await processSnippet(snippet, props.theme));
+	}
 
-  const naturalWidth = codeWidth + horizontalPadding * 2;
-  const divisibleByTwo = Math.ceil(naturalWidth / 2) * 2; // MP4 requires an even width
+	const naturalWidth = codeWidth + horizontalPadding * 2;
+	const divisibleByTwo = Math.ceil(naturalWidth / 2) * 2; // MP4 requires an even width
 
-  const minimumWidth = props.width.type === "fixed" ? 0 : 1080;
-  const minimumWidthApplied = Math.max(minimumWidth, divisibleByTwo);
+	const minimumWidth = props.width.type === "fixed" ? 0 : 1080;
+	const minimumWidthApplied = Math.max(minimumWidth, divisibleByTwo);
 
-  return {
-    durationInFrames: contents.length * defaultStepDuration,
-    width:
-      props.width.type === "fixed"
-        ? Math.max(minimumWidthApplied, props.width.value)
-        : minimumWidthApplied,
-    props: {
-      theme: props.theme,
-      width: props.width,
-      steps: twoSlashedCode,
-      themeColors,
-      codeWidth,
-    },
-  };
+	return {
+		durationInFrames: contents.length * defaultStepDuration,
+		width:
+			props.width.type === "fixed"
+				? Math.max(minimumWidthApplied, props.width.value)
+				: minimumWidthApplied,
+		props: {
+			theme: props.theme,
+			width: props.width,
+			steps: twoSlashedCode,
+			themeColors,
+			codeWidth,
+		},
+	};
 };
