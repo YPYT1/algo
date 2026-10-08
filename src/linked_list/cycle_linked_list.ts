@@ -1,9 +1,10 @@
+import { con_log } from "../main";
 import { printCycleList } from "./comon";
 
 //初始化循环链表
 class Cyclelinked {
 	value: number;
-	next: Cyclelinked | null;
+	next: Cyclelinked | null = null;
 	constructor(value: number, next: Cyclelinked | null = null) {
 		this.value = value;
 		this.next = next;
@@ -33,13 +34,62 @@ function insert(node: Cyclelinked | null = null, value: number): void {
 	current.next = newNode;
 	newNode.next = next;
 }
-//删除数据
-function deleteNode(node: Cyclelinked | null = null): void {}
-//修改数据
 
-//删除数据
+//删除数据（需要找到他的前一个节点）
+function deleteNode(node: Cyclelinked | null = null): void {
+	if (node === null) {
+		con_log("node is null");
+		return;
+	}
+	if (node.next === node) {
+		node.next = null;
+		return;
+	}
+	let previous = node;
+	while (previous.next !== node) {
+		previous = previous.next!;
+	}
+	previous.next = node.next;
+	node.next = null;
+}
+//修改数据
+function changeValue(
+	node: Cyclelinked | null = null,
+	targetNumber: number,
+): string {
+	if (node === null) return "node is null";
+	if (node.value === targetNumber) {
+		return "数值相同";
+	}
+	node.value = targetNumber;
+	return "修改成功";
+}
+//查询节点数据
+function QueryVaule(node: Cyclelinked | null = null): number | null {
+	if (node === null) return null;
+	return node.value;
+}
+
+//根据数据查询节点
+function QueryNodeOfValue(
+	head: Cyclelinked | null = null,
+	value: number,
+): Cyclelinked | null {
+	if (head === null) return null;
+	let current: Cyclelinked | null = null;
+	current = head;
+	do {
+		if (current.value === value) return current;
+		current = current.next;
+	} while (current !== null && current !== head)
+	return null;
+}
 
 //==============打印=======
 // printCycleList(n4);
 // insert(n1,20)
+
+// deleteNode(n2);
+// con_log(QueryVaule(n0));
+con_log(QueryNodeOfValue(n0, 3));
 printCycleList(n0);
