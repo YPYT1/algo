@@ -81,7 +81,7 @@ function QueryNodeOfValue(
 	do {
 		if (current.value === value) return current;
 		current = current.next;
-	} while (current !== null && current !== head)
+	} while (current !== null && current !== head);
 	return null;
 }
 
