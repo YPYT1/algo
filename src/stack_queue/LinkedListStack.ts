@@ -6,7 +6,7 @@ class ListNode {
 	constructor(value: number, node: ListNode | null = null) {
 		this.value = value;
 		this.next = node;
-	} 
+	}
 }
 
 class ListNodeStack {
@@ -21,28 +21,28 @@ class ListNodeStack {
 		return this.Stksize;
 	}
 	/* 判断栈是否为空 */
-    stackIsEmpty(): boolean{
-        return this.Stksize === 0;
-    }
+	stackIsEmpty(): boolean {
+		return this.Stksize === 0;
+	}
 	/* 入栈 */
-    push(value: number):void {
-        const node = new ListNode(value);
-        node.next = this.stackPack;
-        this.stackPack = node;
-        this.Stksize++;
-    }
+	push(value: number): void {
+		const node = new ListNode(value);
+		node.next = this.stackPack;
+		this.stackPack = node;
+		this.Stksize++;
+	}
 	/* 出栈 */
-    pop():number | null{
-        const num = this.peek();
+	pop(): number | null {
+		const num = this.peek();
 		this.stackPack = this.stackPack!.next;
 		this.Stksize--;
-        return num;
-    }
+		return num;
+	}
 	/* 访问栈顶元素 */
-    peek(): number | null{
-        if(this.stackPack === null) throw new Error( "栈为空");
-        return this.stackPack.value;
-    }
+	peek(): number | null {
+		if (this.stackPack === null) throw new Error("栈为空");
+		return this.stackPack.value;
+	}
 	/* 将链表转化为 Array 并返回 */
 }
 
