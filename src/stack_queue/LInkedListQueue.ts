@@ -46,6 +46,13 @@ class ListNodeQueue{
 
     //元素出队 | 队首先走
     pop(): number{
+        //如果队为空
+        if(this.head === null && this.tail === null){
+            throw new Error("队列为空");
+        }else if(this.head === this.tail){
+            return this.head!.value;
+            
+        }
         return 0
     }
 
