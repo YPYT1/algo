@@ -39,34 +39,47 @@ class ArrayStack {
 	}
 
 	//出栈
-	pop(): number | null{
+	pop(): number | null {
 		if (this.Stack_Is_Null() === true) throw new Error("栈为空");
-		const TopVaule = this.array[this.array.length -1];
-        if(TopVaule === undefined){
-            throw new Error("栈为空");
-        }
-        this.array.length--;
-        this.Stksize--;
-        return TopVaule;
+		const TopVaule = this.array[this.array.length - 1];
+		if (TopVaule === undefined) {
+			throw new Error("栈为空");
+		}
+		this.array.length--;
+		this.Stksize--;
+		return TopVaule;
 	}
 
 	//反转栈
-	Revese_Stack(): void | null {
-		if (this.Stack_Is_Null() === true) throw new Error("栈为空");
-        
-		return null;
+	Revese_Stack(): void {
+		if (this.Stack_Is_Null() === true) return;
+		let i = 0;
+		let j = this.array.length - 1;
+		while (i < j) {
+			const value_j = this.array[j];
+			const value_i = this.array[i];
+			if (value_j === undefined || value_i === undefined) {
+				throw new Error("数组下标无效");
+			}
+			this.array[j] = value_i;
+			this.array[i] = value_j;
+			i++;
+			j--;
+		}
 	}
 }
 const stack = new ArrayStack();
 
-stack.Push(8);
 stack.Push(1);
-stack.Push(43);
+stack.Push(2);
 stack.Push(3);
+stack.Push(4);
+stack.Push(5);
 stack.Push(6);
-stack.Push(88);
 
 printArrayStack(stack.array);
-
+con_log("----------反转-------");
+stack.Revese_Stack();
+printArrayStack(stack.array);
 // con_log(stack.StkLength);
 // con_log(stack.Revese_Stack());
