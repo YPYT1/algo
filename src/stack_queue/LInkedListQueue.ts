@@ -41,7 +41,7 @@ class ListNodeQueue{
             this.tail = node;
         }
         this.queueSize++;
-        return;
+        return; 
     }
 
     //元素出队 | 队首先走

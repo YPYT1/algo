@@ -47,6 +47,23 @@ function printArrayQueue(queue: readonly number[]): void {
 	con_log(`队头 -> ${queue.join(" -> ")} -> 队尾`);
 }
 
+//数组实现的双向队列打印：不修改原数组
+function printArrayDoubleEndedQueue(queue: readonly number[], direction: boolean): void {
+
+	if (queue.length === 0) {
+		con_log("空双向队列");
+		return;
+	}
+	if (direction === true) {
+		//队头打印到队尾
+		con_log(`队头 -> ${queue.join(" -> ")} -> 队尾`);
+		return;
+	}
+	//队尾打印到队头
+	con_log(`队头 -> ${queue.toReversed().join(" -> ")} -> 队尾`);
+	return;
+}
+
 // 链表头节点为队头，沿 next 指针打印到队尾。
 function printLinkedQueue(head: QueueNode | null): void {
 	if (head === null) {
@@ -64,4 +81,28 @@ function printLinkedQueue(head: QueueNode | null): void {
 	con_log(`队头 -> ${values.join(" -> ")} -> 队尾`);
 }
 
+//链表实现的双向队列打印：不修改原数组
+function printLinkedDoubleEndedQueue(head: QueueNode | null,direction: boolean): void{
+	if(head === null){
+		con_log("空双向队列");
+		return;
+	}
+	const values: number[] = [];
+	let current: QueueNode | null = head;
+	//为true时 从队头打印
+	if(direction === true){
+		while(current !== null){
+			values.push(current.value);
+			current = current.next;
+		}
+		con_log(`队头 -> ${values.join(" -> ")} -> 队尾`);
+		return;
+	}
+			while(current !== null){
+			values.push(current.value);
+			current = current.next;
+		}
+		con_log(`队头 -> ${values.join(" -> ")} -> 队尾`);
+		return;
+}
 export { printArrayStack, printLinkedStack, printArrayQueue, printLinkedQueue };
